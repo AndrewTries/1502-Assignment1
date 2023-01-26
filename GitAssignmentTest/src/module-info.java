@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author egor
- *
- */
-module GitAssignmentTest {
-}
