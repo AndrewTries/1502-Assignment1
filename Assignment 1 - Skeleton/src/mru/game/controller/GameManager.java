@@ -18,5 +18,9 @@ public class GameManager {
 		
 	}
 	
+	public static void fileLoader() {
+		
+	}
+	
 
 }
