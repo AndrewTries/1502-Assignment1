@@ -31,12 +31,84 @@ public class GameManager {
 			
 			switch(option) {
 			case 1:
-				
+				playGame();
+				break;
+			case 2:
+				playerSearch();
+				break;
+			case 3:
+				save();
+				flag = false;
+			}	
+		}
+	}
+	
+	private void searchApplication() {
+		
+		boolean flag = true;
+		char option;
+		
+		while (flag) {
+			option = appMenu.searchMenu();
+			
+			switch(option) {
+			case 1:
+				topPlayer();
+				break;
+			case 2:
+				findPlayer();
+				break;
+			case 3:
+				returnToMenu();
+				flag = false;
+			}			
+		}
+	}
+	
+	private void outcomeApplication() {
+		
+		boolean flag = true;
+		char option;
+		
+		while (flag) {
+			option = appMenu.outcomeMenu();
+			
+			switch(option) {
+			case 1:
+				playerWin();
+				break;
+			case 2:
+				dealerWin();
+				break;
+			case 3:
+				gameTie();
+				flag = false;
 			}
 		}
 	}
 	
-	private void Save() throws IOException {
+	private long playerBalance(){
+	boolean done = false;
+	for (int index = 0; index < players.size() && !done; index++) {
+		if (players.get(index).getName() != null) {
+			long oldBalance = players.get(index).getBalance();
+			players.get(index).setBalance(oldBalance);
+			done = true;
+		}
+		return oldBalance;
+		
+	}
+	}
+		
+	private void playGame() {
+		outcomeMenu();
+	}
+	
+	private void findPlayer() {
+		
+	}
+	
+	private void save() throws IOException {
 		File file = new File (FILE_PATH);
 		PrintWriter printWrite = new PrintWriter(file);
 		for (Player p: players) {
@@ -45,7 +117,11 @@ public class GameManager {
 		printWrite.close();
 	}
 
-	private void PlayerSearch() {
+	private void topPlayer() {
+
+	}
+	
+	private void playerSearch() {
 		String name = appMenu.enterName();
 		boolean found = false;
 
@@ -56,9 +132,25 @@ public class GameManager {
 				break;
 			}
 	}
-
-	private void TopPlayer() {
-
+	
+	private void returnToMenu() {
+		
+	}
+		
+	private void makeBet() {
+		
+	}
+	
+	private void playerWin() {
+		
+	}
+	
+	private void dealerWin() {
+		
+	}
+	
+	private void gameTie() {
+		
 	}
 	
 	/* In this class toy'll need these methods:

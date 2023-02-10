@@ -26,7 +26,7 @@ public class Card {
 		this.rank = rank;
 		this.suit = suit;
 	}
-
+	
 	/**
 	 * rank getter method
 	 * @return the rank

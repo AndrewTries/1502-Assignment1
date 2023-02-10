@@ -2,7 +2,7 @@ package mru.game.view;
 
 import java.util.Scanner;
 
-import mru.guess.model.Customer;
+import mru.game.model.Player;
 
 public class AppMenu {
 	
@@ -18,30 +18,40 @@ public class AppMenu {
 		input = new Scanner(System.in);
 	}
 	
-	public String showMainMenu() {
+	public char showMainMenu() {
 		System.out.println("Select one of the Options:");
 		System.out.println("(P) Play game");
 		System.out.println("(S) Search");
 		System.out.println("(E) Exit");
 		System.out.println("Enter a choice: ");
-		String option = input.nextLine();
+		char option = input.next().charAt(0);
 		
 		return option;
 	}
 	
-	public String searchMenu() {
+	public char searchMenu() {
 		
 		System.out.println("Select one of these options: ");
 		System.out.println("(T) Top player (Most number of wins)");
 		System.out.println("(N) Looking for a Name");
 		System.out.println("(B) Back to Main menu");
 		System.out.println("Enter a choice:");
-		String option = input.nextLine();
+		char option = input.next().charAt(0);
 		
 		return option;
 	}
 	
-	public void showCustomer(Player ply) {
+	public char outcomeMenu() {
+		System.out.println("Who do you want to bet on?");
+		System.out.println("Player Wins");
+		System.out.println("Banker Wins");
+		System.out.println("Tie");
+		char option = input.next().charAt(0);
+		
+		return option;
+	}
+	
+	public void showPlayer(Player ply) {
 		if (ply !=null)
 			System.out.println(ply);
 		else
@@ -53,19 +63,27 @@ public class AppMenu {
 		System.out.println("+=============+==============+");
 		System.out.println("|NAME         |# WINS        |");
 		System.out.println("+=============+==============+");
-		System.out.println("|" + topPlayerName(0) + "|" + topPlayerWins(0) + "|");
-		System.out.println("+-------------+--------------+");
-		System.out.println("|" + topPlayerName(1) + "|" + topPlayerWins(1) + "|");
+//		System.out.println("|" + topPlayerName(0) + "|" + topPlayerWins(0) + "|");
+//		System.out.println("+-------------+--------------+");
+//		System.out.println("|" + topPlayerName(1) + "|" + topPlayerWins(1) + "|");
 		System.out.println("+-------------+--------------+");
 		
 		System.out.println("Press \"Enter\" to continue...");
-		System.in.read();
+//		System.in.read();
 	}
 	
 	public String enterName() {
 		System.out.println("What is your name: ");
 		String name = input.nextLine().trim().toLowerCase();
 		return name;
+		
+	}
+	
+	public void oldPlayer() {
+		
+	}
+	
+	public void newPlayer() {
 		
 	}
 	

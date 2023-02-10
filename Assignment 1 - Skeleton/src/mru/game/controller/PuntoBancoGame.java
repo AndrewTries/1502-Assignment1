@@ -10,33 +10,46 @@ private Scanner input;
 
 
 	
-//	public PuntoBancoGame(Player[] players) {
-//		System.out.println("What is your name?: ");
-//		String name = input.nextLine().trim().toLowerCase();
-//		
-//		for (Player pl : players) {
-//			if (input.equals(name)) {
-//				System.out.println("***********************");
-//				System.out.println("*** Welcome back "+name+" --- Your Balance is: "+balance+" $ ***");
-//				System.out.println("***********************");
-//				break;
-//			}
-//			else {
-//				PrintWriter write = new PrintWriter ("res/CasinoInfo.txt");
-//				write.println(name+"100"+"0");
-//				write.close();
-//				System.out.println("New account has been created for " + name+" your balance is "+balance+" $");
-//			}
-//		}
-//		
-//			
-//	}
-//	
+	public PuntoBancoGame(Player[] players) {
+		System.out.println("What is your name?: ");
+		String name = input.nextLine().trim().toLowerCase();
+		
+		for (Player pl : players) {
+			if (input.equals(name)) {
+				System.out.println("***********************");
+				System.out.println("*** Welcome back "+name+" --- Your Balance is: "+balance+" $ ***");
+				System.out.println("***********************");
+				break;
+			}
+			else {
+				PrintWriter write = new PrintWriter ("res/CasinoInfo.txt");
+				write.println(name+"100"+"0");
+				write.close();
+				System.out.println("New account has been created for " + name+" your balance is "+balance+" $");
+			}
+		}
+		boolean done = false;
+
+		for (int index = 0; index < players.size() && !done; index++) {
+			if (players.get(index).getName()) {
+				double oldBalance = players.get(index).getBalance();
+				players.get(index).setBalance(oldBalance);
+				done = true;
+			}
+			return oldBalance;
+			
+		}
+			
+	}
+	
 	public static CardDeck cards = new CardDeck();
 	public void puntoBancoGame() {
 				
 		final int SET_ZERO = 0;
 		final int MODULO = 10;
+		boolean playerWin = false;
+		boolean dealerWin = false;
+		boolean gameTie = false;
 		
 			
 			//Card playerHand = cards.getDeck().remove(0);
@@ -78,12 +91,15 @@ private Scanner input;
 				System.out.printf("%s %s\n", playerHandValue, dealerHandValue);
 				if(playerHandValue > dealerHandValue) {
 					System.out.println("Player Wins!");
+					playerWin = true;					
 				}
 				else if(playerHandValue < dealerHandValue) {
 					System.out.println("Dealer Wins!");
+					dealerWin = true;
 				}
 				else {
 					System.out.println("Game Tied");
+					gameTie = true;
 				}
 			}
 			else if(playerHandValue >= 0 && playerHandValue < 6) {
@@ -92,8 +108,7 @@ private Scanner input;
 				if(playerValue3 > 9 && playerValue3 < 14) {
 					playerValue3 = SET_ZERO;					
 				}
-				
-				
+						
 				if((playerValue3 == 2 || playerValue3 == 3) && dealerHandValue >= 0 && dealerHandValue < 5) {
 					Card dealerCard3 = cards.getDeck().remove(0);
 					int dealerValue3 = dealerCard3.getRank();
@@ -107,12 +122,15 @@ private Scanner input;
 					System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 					if(playerHandValue > dealerHandValue) {
 						System.out.println("Player Wins!");
+						playerWin = true;	
 					}
 					else if(playerHandValue < dealerHandValue) {
 						System.out.println("Dealer Wins!");
+						dealerWin = true;
 					}
 					else {
 						System.out.println("Game Tied");
+						gameTie = true;
 					}
 				}
 				else if((playerValue3 == 4 || playerValue3 == 5) && (dealerHandValue >= 0 && dealerHandValue < 6)) {
@@ -128,12 +146,15 @@ private Scanner input;
 					System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 					if(playerHandValue > dealerHandValue) {
 						System.out.println("Player Wins!");
+						playerWin = true;
 					}
 					else if(playerHandValue < dealerHandValue) {
 						System.out.println("Dealer Wins!");
+						dealerWin = true;
 					}
 					else {
 						System.out.println("Game Tied");
+						gameTie = true;
 					}
 				}
 				else if(playerValue3 == 8 && (dealerHandValue >= 0 && dealerHandValue < 3)) {
@@ -149,12 +170,15 @@ private Scanner input;
 					System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 					if(playerHandValue > dealerHandValue) {
 						System.out.println("Player Wins!");
+						playerWin = true;
 					}
 					else if(playerHandValue < dealerHandValue) {
 						System.out.println("Dealer Wins!");
+						dealerWin = true;
 					}
 					else {
 						System.out.println("Game Tied");
+						gameTie = true;
 					}
 				}
 				else if((playerValue3 == 1 || playerValue3 == 9 || playerValue3 == 10)){
@@ -170,12 +194,15 @@ private Scanner input;
 					System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 					if(playerHandValue > dealerHandValue) {
 						System.out.println("Player Wins!");
+						playerWin = true;
 					}
 					else if(playerHandValue < dealerHandValue) {
 						System.out.println("Dealer Wins!");
+						dealerWin = true;
 					}
 					else {
 						System.out.println("Game Tied");
+						gameTie = true;
 					}
 				}
 				playerHandValue = (playerHandValue + playerValue3)%MODULO;				
@@ -183,12 +210,15 @@ private Scanner input;
 				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 				if(playerHandValue > dealerHandValue) {
 					System.out.println("Player Wins!");
+					playerWin = true;
 				}
 				else if(playerHandValue < dealerHandValue) {
 					System.out.println("Dealer Wins!");
+					dealerWin = true;
 				}
 				else {
 					System.out.println("Game Tied");
+					gameTie = true;
 				}
 			}
 			else /*(playerDraw == false && dealerHandValue >= 0 && dealerHandValue < 6 && dealerHandValue != 6 && dealerHandValue !=7)*/{
@@ -202,14 +232,18 @@ private Scanner input;
 				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 				if(playerHandValue > dealerHandValue) {
 					System.out.println("Player Wins!");
+					playerWin = true;
 				}
 				else if(playerHandValue < dealerHandValue) {
 					System.out.println("Dealer Wins!");
+					dealerWin = true;
 				}
 				else {
 					System.out.println("Game Tied");
+					gameTie = true;
 				}
 			}
+			
 	}
 			
 	
