@@ -1,5 +1,13 @@
 package mru.game.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import mru.game.model.Player;
+import mru.game.view.AppMenu;
 
 public class GameManager {
 	
@@ -13,6 +21,21 @@ public class GameManager {
 		appMenu = new AppMenu();
 	}
 	
+	private void launchApplication() throws IOException {
+		
+		boolean flag = true;
+		char option;
+		
+		while (flag) {
+			option = appMenu.showMainMenu();
+			
+			switch(option) {
+			case 1:
+				
+			}
+		}
+	}
+	
 	private void Save() throws IOException {
 		File file = new File (FILE_PATH);
 		PrintWriter printWrite = new PrintWriter(file);
@@ -23,7 +46,7 @@ public class GameManager {
 	}
 
 	private void PlayerSearch() {
-		String name = appMenu.promptName();
+		String name = appMenu.enterName();
 		boolean found = false;
 
 		for (Player c : players)
