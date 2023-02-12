@@ -1,7 +1,5 @@
 package mru.game.controller;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class PuntoBancoGame {
@@ -9,41 +7,6 @@ public class PuntoBancoGame {
 private Scanner input;
 
 
-	
-//	public PuntoBancoGame(Player[] players) {
-//		System.out.println("What is your name?: ");
-//		String name = input.nextLine().trim().toLowerCase();
-//		
-//		for (Player pl : players) {
-//			if (input.equals(name)) {
-//				System.out.println("***********************");
-//				System.out.println("*** Welcome back "+name+" --- Your Balance is: "+balance+" $ ***");
-//				System.out.println("***********************");
-//				break;
-//			}
-//			else {
-//				PrintWriter write = new PrintWriter ("res/CasinoInfo.txt");
-//				write.println(name+"100"+"0");
-//				write.close();
-//				System.out.println("New account has been created for " + name+" your balance is "+balance+" $");
-//			}
-//		}
-//		boolean done = false;
-//
-//		for (int index = 0; index < players.size() && !done; index++) {
-//			if (players.get(index).getName()) {
-//				double oldBalance = players.get(index).getBalance();
-//				players.get(index).setBalance(oldBalance);
-//				done = true;
-//			}
-//			return oldBalance;
-//			
-//		}
-//			
-//	}
-
-
-    
 public static CardDeck cards = new CardDeck();
 
 public void puntoBancoGame() {
@@ -114,28 +77,6 @@ private int getValue(Card card) {
   return value;
 }
 
-			
-	
-	private static int playerDraw3() {
-		CardDeck cards = new CardDeck();
-		final int SET_ZERO = 0;
-		Card playerCard3 = cards.getDeck().remove(0);
-		int playerValue3 = playerCard3.getRank();
-		if(playerValue3 > 9 && playerValue3 < 14) {
-			playerValue3 = SET_ZERO;					
-		}
-		return playerValue3;
-	}
-	private static int dealerDraw3() {
-		CardDeck cards = new CardDeck();
-		final int SET_ZERO = 0;
-		Card dealerCard3 = cards.getDeck().remove(0);
-		int dealerValue3 = dealerCard3.getRank();
-		if(dealerValue3 > 9 && dealerValue3 < 14) {
-			dealerValue3 = SET_ZERO;					
-		}
-		return dealerValue3;
-	}
 	
 	
 	/**

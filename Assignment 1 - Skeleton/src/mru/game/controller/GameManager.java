@@ -99,29 +99,6 @@ public class GameManager {
 		}
 	}
 	
-//	private long playerBalance(){
-//	boolean done = false;
-//	for (int index = 0; index < players.size() && !done; index++) {
-//		if (players.get(index).getName() != null) {
-//			long oldBalance = players.get(index).getBalance();
-//			players.get(index).setBalance(oldBalance);
-//			done = true;
-//		}
-//		return oldBalance;
-//		
-//	}
-//	}
-		
-//	public void playGame(int betAmount, String betType) {
-//	    if (betAmount > players.get(index).getBalance) {
-//	      System.out.println("Insufficient balance.");
-//	      return;
-//	    }
-//	}
-	
-	private void findPlayer() {
-		
-	}
 	
 	private void save() throws IOException {
 		File file = new File (FILE_PATH);
@@ -134,7 +111,18 @@ public class GameManager {
 	}
 
 	private void topPlayer() {
+	    players.sort((p1, p2) -> p2.getNumberOfWins() - p1.getNumberOfWins());
 
+	    System.out.println("		 - TOP PLAYERS -			");
+	    System.out.println("+===============+===============+===============+");
+	    System.out.println("|RANK           |NAME           |# WINS         |");
+	    System.out.println("+===============+===============+===============+");
+
+	    for (int i = 0; i < players.size() && i < 5; i++) {
+	        Player player = players.get(i);
+	        System.out.println("|" + (i + 1) + "              |" + player.getName() + "\t\t|" + player.getNumberOfWins() + "\t\t|");
+	        System.out.println("+---------------+---------------+---------------+");
+	    }
 	}
 	
 	public void playerSearch() {
@@ -178,10 +166,26 @@ public class GameManager {
     		players.add(newPlayer);
 	    }
 	    outcomeApplication();
+	    
 		
 	}
-
-	public String enterName() {
+	private void setBet() {
+	for (Player player : players) {
+		input = new Scanner(System.in);
+		System.out.println("How much would you like to bet this round?");
+		int betAmount = input.nextInt();
+		if (betAmount > player.getBalance()) {
+			System.out.println("Balance exceeded, please enter an amount within your limit.");
+		}
+		player.setBalance(player.getBalance() - betAmount);
+		System.out.println(player.getBalance());
+		player.setBalance(player.getBalance() + betAmount);
+		System.out.println(player.getBalance());
+	}
+    }
+	
+	
+	private String enterName() {
 		input = new Scanner(System.in);
 	    System.out.println("What is your name: ");
 	    String name = input.nextLine().trim().toLowerCase();
@@ -220,12 +224,9 @@ public class GameManager {
 		
 	}
 		
-	private void makeBet() {
 		
-	}
-	
 	private void playerWin() {
-		
+//		player.setBalance(player.getBalance() - betAmount);
 	}
 	
 	private void dealerWin() {

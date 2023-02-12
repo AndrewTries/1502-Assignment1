@@ -37,7 +37,7 @@ public class Player {
 		this.numberOfWins = numberOfWins;
 	}
 	
-	public double getNumberOfWins() {
+	public int getNumberOfWins() {
 		return numberOfWins;
 	}
 	
