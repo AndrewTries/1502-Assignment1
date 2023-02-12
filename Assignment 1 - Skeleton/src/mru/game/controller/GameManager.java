@@ -19,6 +19,7 @@ public class GameManager {
 	public GameManager() throws Exception {
 		players = new ArrayList<>();
 		appMenu = new AppMenu();
+		launchApplication();
 	}
 	
 	private void launchApplication() throws IOException {
@@ -30,35 +31,41 @@ public class GameManager {
 			option = appMenu.showMainMenu();
 			
 			switch(option) {
-			case 1:
-				playGame();
+			case 'P':
+			case 'p':
+				appMenu.gameMenu();
 				break;
-			case 2:
-				playerSearch();
+			case 'S':
+			case 's':
+				appMenu.searchMenu();
 				break;
-			case 3:
+			case 'E':
+			case 'e':
 				save();
 				flag = false;
 			}	
 		}
 	}
 	
-	private void searchApplication() {
+	private void searchApplication() throws IOException {
 		
 		boolean flag = true;
-		char option;
+		char option1;
 		
 		while (flag) {
-			option = appMenu.searchMenu();
+			option1 = appMenu.searchMenu();
 			
-			switch(option) {
-			case 1:
+			switch(option1) {
+			case 'T':
+			case 't':
 				topPlayer();
 				break;
-			case 2:
-				findPlayer();
+			case 'N':
+			case 'n':
+				playerSearch();
 				break;
-			case 3:
+			case 'B':
+			case 'b':
 				returnToMenu();
 				flag = false;
 			}			
@@ -68,41 +75,47 @@ public class GameManager {
 	private void outcomeApplication() {
 		
 		boolean flag = true;
-		char option;
+		char option2;
 		
 		while (flag) {
-			option = appMenu.outcomeMenu();
+			option2 = appMenu.gameMenu();
 			
-			switch(option) {
-			case 1:
+			switch(option2) {
+			case 'P':
+			case 'p':
 				playerWin();
 				break;
-			case 2:
+			case 'D':
+			case 'd':
 				dealerWin();
 				break;
-			case 3:
+			case 'T':
+			case 't':
 				gameTie();
 				flag = false;
 			}
 		}
 	}
 	
-	private long playerBalance(){
-	boolean done = false;
-	for (int index = 0; index < players.size() && !done; index++) {
-		if (players.get(index).getName() != null) {
-			long oldBalance = players.get(index).getBalance();
-			players.get(index).setBalance(oldBalance);
-			done = true;
-		}
-		return oldBalance;
+//	private long playerBalance(){
+//	boolean done = false;
+//	for (int index = 0; index < players.size() && !done; index++) {
+//		if (players.get(index).getName() != null) {
+//			long oldBalance = players.get(index).getBalance();
+//			players.get(index).setBalance(oldBalance);
+//			done = true;
+//		}
+//		return oldBalance;
+//		
+//	}
+//	}
 		
-	}
-	}
-		
-	private void playGame() {
-		outcomeMenu();
-	}
+//	public void playGame(int betAmount, String betType) {
+//	    if (betAmount > players.get(index).getBalance) {
+//	      System.out.println("Insufficient balance.");
+//	      return;
+//	    }
+//	}
 	
 	private void findPlayer() {
 		
@@ -115,6 +128,7 @@ public class GameManager {
 			printWrite.println(p.format());
 		}
 		printWrite.close();
+		appMenu.exitProgram();
 	}
 
 	private void topPlayer() {
@@ -122,6 +136,7 @@ public class GameManager {
 	}
 	
 	private void playerSearch() {
+		System.out.println("balls");
 		String name = appMenu.enterName();
 		boolean found = false;
 
