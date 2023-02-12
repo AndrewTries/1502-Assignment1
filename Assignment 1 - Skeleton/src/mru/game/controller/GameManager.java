@@ -35,7 +35,7 @@ public class GameManager {
 			switch(option) {
 			case 'P':
 			case 'p':
-				outcomeApplication();
+				gameInterface();
 				break;
 			case 'S':
 			case 's':
@@ -65,11 +65,7 @@ public class GameManager {
 			case 'N':
 			case 'n':
 				playerSearch();
-				break;
-			case 'C':
-			case 'c':
-				createAccount();
-				break;
+				break;			
 			case 'B':
 			case 'b':
 				returnToMenu();
@@ -161,6 +157,29 @@ public class GameManager {
 	        System.out.println("Player not found.");
 	    }
 	}
+	
+	private void gameInterface() {
+		String name = enterName();
+		boolean found = false;
+	    for (Player player : players) {
+	        if (player.getName().equals(name)) {
+	        	System.out.println("********************************************************************");
+	        	System.out.println("***   Welcome back " + player.getName() + "   ---   Your balance is: " + player.getBalance() + "$        ***");
+	        	System.out.println("********************************************************************");	            	            
+	            found = true;
+	            break;
+	        }
+	    }
+	    if (!found) {
+	    	System.out.println("********************************************************************");
+        	System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
+        	System.out.println("********************************************************************");
+        	Player newPlayer = new Player(name, 100, 0);
+    		players.add(newPlayer);
+	    }
+	    outcomeApplication();
+		
+	}
 
 	public String enterName() {
 		input = new Scanner(System.in);
@@ -169,11 +188,6 @@ public class GameManager {
 	    return name;
 	}
 	
-	private void createAccount() {
-		String name = enterName();		
-		Player newPlayer = new Player(name, 100, 0);
-		players.add(newPlayer);
-	}
 	
 	private void loadData() throws Exception {
 		File db = new File(FILE_PATH);
