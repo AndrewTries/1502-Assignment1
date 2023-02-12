@@ -42,7 +42,7 @@ public class AppMenu {
 		System.out.println("\nEnter a choice:");
 		char option1 = input.next().toLowerCase().charAt(0);
 		
-		while (option1 != 't' && option1 != 'n' && option1 != 'b') {
+		while (option1 != 't' && option1 != 'n' && option1 != 'c' && option1 != 'b') {
 			System.out.println("Invalid option. Please enter either 't', 'n', or 'b':");
 			option1 = input.next().toLowerCase().charAt(0);
 		}
@@ -89,12 +89,12 @@ public class AppMenu {
 //		System.in.read();
 	}
 	
-	public String enterName() {
-		System.out.println("What is your name: ");
-		String name = input.nextLine().trim().toLowerCase();
-		return name;
-		
-	}
+//	public String enterName() {
+//		System.out.println("What is your name: ");
+//		String name = input.nextLine().trim().toLowerCase();
+//		return name;
+//		
+//	}
 	
 	public void oldPlayer() {
 		

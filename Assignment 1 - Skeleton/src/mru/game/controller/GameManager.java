@@ -12,13 +12,15 @@ import mru.game.view.AppMenu;
 public class GameManager {
 	
 	private Scanner input;
-	private final String FILE_PATH = "res/CasinoInfo.txt";
+	
+	private final String FILE_PATH = "res//CasinoInfo.txt";
 	ArrayList<Player> players;
 	AppMenu appMenu;
 
 	public GameManager() throws Exception {
 		players = new ArrayList<>();
 		appMenu = new AppMenu();
+		loadData();
 		launchApplication();
 	}
 	
@@ -33,11 +35,11 @@ public class GameManager {
 			switch(option) {
 			case 'P':
 			case 'p':
-				appMenu.gameMenu();
+				outcomeApplication();
 				break;
 			case 'S':
 			case 's':
-				appMenu.searchMenu();
+				searchApplication();
 				break;
 			case 'E':
 			case 'e':
@@ -63,6 +65,10 @@ public class GameManager {
 			case 'N':
 			case 'n':
 				playerSearch();
+				break;
+			case 'C':
+			case 'c':
+				createAccount();
 				break;
 			case 'B':
 			case 'b':
@@ -135,17 +141,65 @@ public class GameManager {
 
 	}
 	
-	private void playerSearch() {
-		System.out.println("balls");
-		String name = appMenu.enterName();
-		boolean found = false;
+	public void playerSearch() {
+	    String name = enterName();
+	    boolean found = false;
+	    for (Player player : players) {
+	        if (player.getName().equals(name)) {
+	        	System.out.println("		       - PLAYER INFO -			");
+	        	System.out.println("+===============+===============+===============+");
+	    		System.out.println("|NAME           |# WINS         |BALANCE        |");
+	    		System.out.println("+===============+===============+===============+");
+	            System.out.println("|" + player.getName() + "|" + player.getNumberOfWins() + "|" + player.getBalance() + "|");
+	            System.out.println("+---------------+---------------+---------------+");
+	            	            
+	            found = true;
+	            break;
+	        }
+	    }
+	    if (!found) {
+	        System.out.println("Player not found.");
+	    }
+	}
 
-		for (Player c : players)
-			if (c.getName().equals(name)) {
-				appMenu.showPlayer(c);
-				found = true;
-				break;
+	public String enterName() {
+		input = new Scanner(System.in);
+	    System.out.println("What is your name: ");
+	    String name = input.nextLine().trim().toLowerCase();
+	    return name;
+	}
+	
+	private void createAccount() {
+		String name = enterName();		
+		Player newPlayer = new Player(name, 100, 0);
+		players.add(newPlayer);
+	}
+	
+	private void loadData() throws Exception {
+		File db = new File(FILE_PATH);
+		String currentLine;
+		String[] splittedLine;
+
+		if (db.exists()) {
+			Scanner fileReader = new Scanner(db);
+
+			while (fileReader.hasNextLine()) {
+
+				currentLine = fileReader.nextLine();
+				splittedLine = currentLine.split(",");
+				
+				String name = splittedLine[0].toLowerCase();
+				long balance = Long.parseLong(splittedLine[1]);
+				int numberOfWins = Integer.parseInt(splittedLine[2]);
+				
+				Player p = new Player(name,balance,numberOfWins);
+				players.add(p);
+
 			}
+
+			fileReader.close();
+		}
+
 	}
 	
 	private void returnToMenu() {
