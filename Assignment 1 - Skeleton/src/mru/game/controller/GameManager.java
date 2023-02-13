@@ -11,6 +11,8 @@ import mru.game.view.AppMenu;
 
 public class GameManager {
 	
+	public int betAmount=0;
+	
 	private Scanner input;
 	
 	private final String FILE_PATH = "res//CasinoInfo.txt";
@@ -146,7 +148,7 @@ public class GameManager {
 	    }
 	}
 	
-	private void gameInterface() {
+	private int gameInterface() {
 		String name = enterName();
 		boolean found = false;
 	    for (Player player : players) {
@@ -164,25 +166,34 @@ public class GameManager {
         	System.out.println("********************************************************************");
         	Player newPlayer = new Player(name, 100, 0);
     		players.add(newPlayer);
+    		
+    		for (Player player : players) {
+    			input = new Scanner(System.in);
+    			System.out.println("How much would you like to bet this round?");
+    			int betAmount = input.nextInt();
+    			if (betAmount > player.getBalance()) {
+    				System.out.println("Balance exceeded, please enter an amount within your limit.");
+    			}
 	    }
 	    outcomeApplication();
 	    
 		
 	}
-	private void setBet() {
-	for (Player player : players) {
-		input = new Scanner(System.in);
-		System.out.println("How much would you like to bet this round?");
-		int betAmount = input.nextInt();
-		if (betAmount > player.getBalance()) {
-			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		}
-		player.setBalance(player.getBalance() - betAmount);
-		System.out.println(player.getBalance());
-		player.setBalance(player.getBalance() + betAmount);
-		System.out.println(player.getBalance());
-	}
-    }
+//	private void setBet() {
+//	for (Player player : players) {
+//		input = new Scanner(System.in);
+//		System.out.println("How much would you like to bet this round?");
+//		int betAmount = input.nextInt();
+//		if (betAmount > player.getBalance()) {
+//			System.out.println("Balance exceeded, please enter an amount within your limit.");
+//		}
+//		player.setBalance(player.getBalance() - betAmount);
+//		System.out.println(player.getBalance());
+//		player.setBalance(player.getBalance() + betAmount);
+//		System.out.println(player.getBalance());
+//	}
+		return betAmount;
+   }
 	
 	
 	private String enterName() {
@@ -226,7 +237,7 @@ public class GameManager {
 		
 		
 	private void playerWin() {
-//		player.setBalance(player.getBalance() - betAmount);
+		player.setBalance(player.getBalance() - betAmount);
 	}
 	
 	private void dealerWin() {
