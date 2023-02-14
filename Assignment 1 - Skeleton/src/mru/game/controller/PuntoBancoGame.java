@@ -12,17 +12,18 @@ public String puntoBancoGame() {
 
 	final int SET_ZERO = 0;
 	final int MODULO = 10;
-	boolean playerWin = false;
-	boolean dealerWin = false;
-	boolean gameTie = false;
+	boolean gameOver = false;
+	String result = null;
 
-
+while(!gameOver) {
 		//Card playerHand = cards.getDeck().remove(0);
 		Card playerCard1 = cards.getDeck().remove(0);
 		Card playerCard2 = cards.getDeck().remove(0);
+		Card playerCard3 = null;
 		//Card dealerHand = cards.getDeck().remove(0);
 		Card dealerCard1 = cards.getDeck().remove(0);
 		Card dealerCard2 = cards.getDeck().remove(0);
+		Card dealerCard3 = null;
 
 		int playerValue1 = playerCard1.getRank();
 		int dealerValue1 = dealerCard1.getRank();
@@ -45,272 +46,150 @@ public String puntoBancoGame() {
 
 		int playerHandValue =(playerValue1+playerValue2)%MODULO;
 		int dealerHandValue =(dealerValue1+dealerValue2)%MODULO;
-
-		System.out.printf("%s %s\n", playerCard1, playerCard2);
-		System.out.printf("%s %s\n", dealerCard1, dealerCard2);
-		System.out.println(playerHandValue);
-		System.out.println(dealerHandValue);
-
-		String result;
+		
 		if(playerHandValue == 8 || playerHandValue == 9 || dealerHandValue == 8 || dealerHandValue == 9) {
-			System.out.printf("%s %s\n", playerHandValue, dealerHandValue);
 			if(playerHandValue > dealerHandValue) {
-				System.out.println("Player Wins!");
 			    result = "p";			
 			}
 			else if(playerHandValue < dealerHandValue) {
-				System.out.println("Dealer Wins!");
 			     result = "d";
 			}
-			else {				
-				System.out.println("Game Tied");
+			else {
 		        result = "t";
 			}
-			System.out.println("\t\t - PUNTO BANCO - \t\t");
-		    System.out.println("+===================+===================+");
-		    System.out.println("||PLAYER            |DEALER            ||");
-		    System.out.println("+===================+===================+");
-		    System.out.println("| " + playerCard1 + "|" + dealerCard1 +           "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("| " + playerCard2 + "|" + dealerCard2 +           "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("|                   |                   |");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-		    System.out.println("+===================+===================+");
+			gameOver = true;
+		    
 		}
 		else if(playerHandValue >= 0 && playerHandValue < 6) {
-			Card playerCard3 = cards.getDeck().remove(0);
+			playerCard3 = cards.getDeck().remove(0);
 			int playerValue3 = playerCard3.getRank();
 			if(playerValue3 > 9 && playerValue3 < 14) {
 				playerValue3 = SET_ZERO;					
 			}
 
 			if((playerValue3 == 2 || playerValue3 == 3) && dealerHandValue >= 0 && dealerHandValue < 5) {
-				Card dealerCard3 = cards.getDeck().remove(0);
+				dealerCard3 = cards.getDeck().remove(0);
 				int dealerValue3 = dealerCard3.getRank();
 				if(dealerValue3 > 9 && dealerValue3 < 14) {
 					dealerValue3 = SET_ZERO;					
 				}
 				playerHandValue = (playerHandValue + playerValue3)%MODULO;
-				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;
-				System.out.printf("%s ", playerCard3);
-				System.out.printf("%s ", dealerCard3);
-				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
+				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;				
 				if(playerHandValue > dealerHandValue) {
-					System.out.println("Player Wins!");
 				    result = "p";			
 				}
 				else if(playerHandValue < dealerHandValue) {
-					System.out.println("Dealer Wins!");
 				     result = "d";
 				}
-				else {				
-					System.out.println("Game Tied");
+				else {
 			        result = "t";
 				}
-				System.out.println("\t\t - PUNTO BANCO - \t\t");
-			    System.out.println("+===================+===================+");
-			    System.out.println("||PLAYER            |DEALER            ||");
-			    System.out.println("+===================+===================+");
-			    System.out.println("| " + playerCard1 + "|" + dealerCard1 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard2 + "|" + dealerCard2 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard3 + "|" + dealerCard3 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-			    System.out.println("+===================+===================+");
+				gameOver = true;
 			}
 			else if((playerValue3 == 4 || playerValue3 == 5) && (dealerHandValue >= 0 && dealerHandValue < 6)) {
-				Card dealerCard3 = cards.getDeck().remove(0);
+				dealerCard3 = cards.getDeck().remove(0);
 				int dealerValue3 = dealerCard3.getRank();
 				if(dealerValue3 > 9 && dealerValue3 < 14) {
 					dealerValue3 = SET_ZERO;					
 				}
 				playerHandValue = (playerHandValue + playerValue3)%MODULO;
-				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;
-				System.out.printf("%s ", playerCard3);
-				System.out.printf("%s ", dealerCard3);
-				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
+				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;				
 				if(playerHandValue > dealerHandValue) {
-					System.out.println("Player Wins!");
 				    result = "p";			
 				}
 				else if(playerHandValue < dealerHandValue) {
-					System.out.println("Dealer Wins!");
 				     result = "d";
 				}
-				else {				
-					System.out.println("Game Tied");
+				else {
 			        result = "t";
 				}
-				System.out.println("\t\t - PUNTO BANCO - \t\t");
-			    System.out.println("+===================+===================+");
-			    System.out.println("||PLAYER            |DEALER            ||");
-			    System.out.println("+===================+===================+");
-			    System.out.println("| " + playerCard1 + "|" + dealerCard1 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard2 + "|" + dealerCard2 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard3 + "|" + dealerCard3 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-			    System.out.println("+===================+===================+");
+				gameOver = true;
 			}
 			else if(playerValue3 == 8 && (dealerHandValue >= 0 && dealerHandValue < 3)) {
-				Card dealerCard3 = cards.getDeck().remove(0);
+				dealerCard3 = cards.getDeck().remove(0);
 				int dealerValue3 = dealerCard3.getRank();
 				if(dealerValue3 > 9 && dealerValue3 < 14) {
 					dealerValue3 = SET_ZERO;					
 				}
 				playerHandValue = (playerHandValue + playerValue3)%MODULO;
-				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;
-				System.out.printf("%s ", playerCard3);
-				System.out.printf("%s ", dealerCard3);
-				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
+				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;				
 				if(playerHandValue > dealerHandValue) {
-					System.out.println("Player Wins!");
 				    result = "p";			
 				}
 				else if(playerHandValue < dealerHandValue) {
-					System.out.println("Dealer Wins!");
 				     result = "d";
 				}
-				else {				
-					System.out.println("Game Tied");
+				else {
 			        result = "t";
 				}
-				System.out.println("\t\t - PUNTO BANCO - \t\t");
-			    System.out.println("+===================+===================+");
-			    System.out.println("||PLAYER            |DEALER            ||");
-			    System.out.println("+===================+===================+");
-			    System.out.println("| " + playerCard1 + "|" + dealerCard1 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard2 + "|" + dealerCard2 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard3 + "|" + dealerCard3 +           "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-			    System.out.println("+===================+===================+");
+				gameOver = true;
 			}
 			else if((playerValue3 == 1 || playerValue3 == 9 || playerValue3 == 10)){
-				Card dealerCard3 = cards.getDeck().remove(0);
+				dealerCard3 = cards.getDeck().remove(0);
 				int dealerValue3 = dealerCard3.getRank();
 				if(dealerValue3 > 9 && dealerValue3 < 14) {
 					dealerValue3 = SET_ZERO;					
 				}
 				playerHandValue = (playerHandValue + playerValue3)%MODULO;
 				dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;
-				System.out.printf("%s ", playerCard3);
-				System.out.printf("%s ", dealerCard3);
-				System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 				if(playerHandValue > dealerHandValue) {
-					System.out.println("Player Wins!");
 				    result = "p";			
 				}
 				else if(playerHandValue < dealerHandValue) {
-					System.out.println("Dealer Wins!");
 				     result = "d";
 				}
-				else {				
-					System.out.println("Game Tied");
+				else {
 			        result = "t";
 				}
-				System.out.println("\t\t - PUNTO BANCO - \t\t");
-			    System.out.println("+===================+===================+");
-			    System.out.println("||PLAYER            |DEALER            ||");
-			    System.out.println("+===================+===================+");
-			    System.out.println("| " + playerCard1 +"|" + dealerCard1 + "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard2 +"|" + dealerCard2 + "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("| " + playerCard3 +"|" + dealerCard3 + "|");
-			    System.out.println("+-------------------+-------------------+");
-			    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-			    System.out.println("+===================+===================+");
+				gameOver = true;
 			}
-			playerHandValue = (playerHandValue + playerValue3)%MODULO;				
-			System.out.printf("%s ", playerCard3);				
-			System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
+			playerHandValue = (playerHandValue + playerValue3)%MODULO;
 			if(playerHandValue > dealerHandValue) {
-				System.out.println("Player Wins!");
 			    result = "p";			
 			}
 			else if(playerHandValue < dealerHandValue) {
-				System.out.println("Dealer Wins!");
 			     result = "d";
 			}
-			else {				
-				System.out.println("Game Tied");
+			else {
 		        result = "t";
 			}
-			System.out.println("\t\t - PUNTO BANCO - \t\t");
-		    System.out.println("+===================+===================+");
-		    System.out.println("||PLAYER            |DEALER            ||");
-		    System.out.println("+===================+===================+");
-		    System.out.println("| " + playerCard1 +"|" + dealerCard1 + "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("| " + playerCard2 +"|" + dealerCard2 + "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("| " + playerCard3 +"|"  +              "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-		    System.out.println("+===================+===================+");
+			gameOver = true;
 		}
-		else /*(playerDraw == false && dealerHandValue >= 0 && dealerHandValue < 6 && dealerHandValue != 6 && dealerHandValue !=7)*/{
-			Card dealerCard3 = cards.getDeck().remove(0);
+		else {
+			dealerCard3 = cards.getDeck().remove(0);
 			int dealerValue3 = dealerCard3.getRank();
 			if(dealerValue3 > 9 && dealerValue3 < 14) {
 				dealerValue3 = SET_ZERO;					
 			}
 			dealerHandValue = (dealerHandValue + dealerValue3)%MODULO;
-			System.out.printf("%s \n", dealerCard3);
-			System.out.printf("%s %s \n", playerHandValue, dealerHandValue);
 			if(playerHandValue > dealerHandValue) {
-				System.out.println("Player Wins!");
 			    result = "p";					    
 			}
 			else if(playerHandValue < dealerHandValue) {
-				System.out.println("Dealer Wins!");
 			     result = "d";
 			}
-			else {				
-				System.out.println("Game Tied");
+			else {
 		        result = "t";
 			}
-			System.out.println("\t\t - PUNTO BANCO - \t\t");
-		    System.out.println("+===================+===================+");
-		    System.out.println("||PLAYER            |DEALER            ||");
-		    System.out.println("+===================+===================+");
-		    System.out.println("| " + playerCard1 +"|" + dealerCard1 + "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("| " + playerCard2 +"|" + dealerCard2 + "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("|                   |" + dealerCard3 + "|");
-		    System.out.println("+-------------------+-------------------+");
-		    System.out.println("|PLAYER POINTS: " + playerHandValue + " |DEALER POINTS" + dealerHandValue + "|");
-		    System.out.println("+===================+===================+");
+			gameOver = true;
 		}
-return result;
+		
+		// print menu after game is over
+	    System.out.println("             - PUNTO BANCO -             ");
+	    System.out.println("+===================+===================+");
+	    System.out.println("||PLAYER            |DEALER            ||");
+	    System.out.println("+===================+===================+");
+	    System.out.printf("|%-19s|%-19s|\n", playerCard1, dealerCard1);
+	    System.out.println("+-------------------+-------------------+");
+	    System.out.printf("|%-19s|%-19s|\n", playerCard2, dealerCard2);;
+	    System.out.println("+-------------------+-------------------+");
+	    System.out.printf("|%-19s|%-19s|\n", playerCard3, dealerCard3);
+	    System.out.println("+-------------------+-------------------+");
+	    System.out.printf("|PLAYER POINTS: %-4d|DEALER POINTS: %-4d|\n",playerHandValue, dealerHandValue);
+	    System.out.println("+===================+===================+");	
+	    return result;
+}
+return "p";
 }
 
-
-private int getValue(Card card) {
-  int value = card.getRank();
-  if (value > 9 && value < 14) {
-    value = 0;
-  }
-  return value;
 }
-
-	
-	
-	/**
-	 * In this class you implement the game
-	 * You should use CardDeck class here
-	 * See the instructions for the game rules
-	 */
-
-}
-
