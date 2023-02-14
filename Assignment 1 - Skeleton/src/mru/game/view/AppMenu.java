@@ -6,7 +6,7 @@ import mru.game.model.Player;
 
 /**
  * 
- * @author Andrew Kravicz 
+ * @author Andrew Krawiec 
  *
  */
 public class AppMenu {
@@ -89,6 +89,53 @@ public class AppMenu {
 		return option2;
 	}
 	
+	/**
+	 * Method that sets the bet amount to the setBet clas and returns this value
+	 * @return bet amount
+	 */
+	public long setBet() {
+		input = new Scanner(System.in);
+		System.out.println("How much would you like to bet this round?");
+		long betAmount = input.nextLong();
+		return betAmount;
+	}
+	
+	public void playerWin(long betAmount){		
+		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.printf("$\t   PLAYER WON %-13d$\n", betAmount);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
+	}
+	
+	public void playerLose(long betAmount) {		
+		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.printf("$\t   PLAYER LOST %-13d$\n", betAmount);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
+	}
+	
+	public void playerTie(long betAmount) {		
+		betAmount = betAmount*5;
+		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.printf("$\t   PLAYER WON %-13d$\n", betAmount);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
+	}
+	
+	public boolean playAgain() {
+	    String play = "";
+	    boolean continuePlaying = false;
+	    do {
+	        System.out.println("Do you want to play again (Y/N)?");
+	        play = input.nextLine().toUpperCase();
+	        if (play.equals("Y")) {
+	            continuePlaying = true;
+	        } else if (play.equals("N")) {
+	            continuePlaying = false;
+	            showMainMenu();
+	        } else {
+	            System.out.println("Invalid option. Please enter either 'y' or 'n':");
+	        }
+	    } while (!play.equals("Y") && !play.equals("N"));
+	    return continuePlaying;
+	}
 	
 	/**
 	 * this method is used to show the stored player data, if there is no record, show that the appropriate message
@@ -100,18 +147,18 @@ public class AppMenu {
 		else
 			System.out.println("No record found for that name!");
 	}
+	
 	/**
-	 * This method is used to show the name and number of wins of the top scoring player registered
+	 * Prompts user to enter their name and formats it to the lower case only
+	 * @return name as a string
 	 */
-	public void topPlayerMenu() {
-		System.out.println("- TOP PLAYERS -");
-		System.out.println("+=============+==============+");
-		System.out.println("|NAME         |# WINS        |");
-		System.out.println("+=============+==============+");
-		System.out.println("+-------------+--------------+");
-		
-		System.out.println("Press \"Enter\" to continue...");
+	public String enterName() {
+		input = new Scanner(System.in);
+		System.out.println("What is your name: ");
+		String name = input.nextLine().trim().toLowerCase();
+		return name;
 	}
+	
 	/**
 	 * this method is used to return to the main menu
 	 */
@@ -128,6 +175,4 @@ public class AppMenu {
 		System.exit(0);
 		
 	}
-	
-	
 }
