@@ -18,12 +18,12 @@ public class GameManager {
 	private final String FILE_PATH = "res//CasinoInfo.txt";
 	ArrayList<Player> players;
 	AppMenu appMenu;
-	ArrayList<Bet> bets;
-	Bet bet;
-
+	PuntoBancoGame puntoBanco;
+	
 	public GameManager() throws Exception {
 		players = new ArrayList<>();
 		appMenu = new AppMenu();
+		puntoBanco = new PuntoBancoGame();
 		loadData();
 		launchApplication();
 	}
@@ -77,31 +77,6 @@ public class GameManager {
 			}			
 		}
 	}
-	
-//	private void outcomeApplication() {
-//		
-//		boolean flag = true;
-//		char option2;
-//		
-//		while (flag) {
-//			option2 = appMenu.gameMenu();
-//			
-//			switch(option2) {
-//			case 'P':
-//			case 'p':
-//				playerWin();
-//				break;
-//			case 'D':
-//			case 'd':
-//				dealerWin();
-//				break;
-//			case 'T':
-//			case 't':
-//				gameTie();
-//				flag = false;
-//			}
-//		}
-//	}
 	
 	
 	private void save() throws IOException {
@@ -162,99 +137,180 @@ public class GameManager {
 		        option2 = appMenu.gameMenu();
 		        
 		        if(option2 == 'p') {
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Player");
-		    			System.out.println("hi!");
-		    		}
-		    	    
-		    	    
+		            long betAmount = setBet();
+		            if (betAmount > player.getBalance()) {
+		                System.out.println("Balance exceeded, please enter an amount within your limit.");
+		            }
+		            else {
+		                String result = puntoBanco.puntoBancoGame();
+		                System.out.println(result);
+
+		                long oldBalance = player.getBalance();		               
+		                if(result.equals("p")) {
+		                    player.setBalance(oldBalance + betAmount);
+		                    player.setNumberOfWins(player.getNumberOfWins()+1);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER WON " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		                else {
+		                    player.setBalance(oldBalance - betAmount);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		            }
 		        }
 		        else if(option2 == 'd'){
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Dealer");
-		    		}
+		            long betAmount = setBet();
+		            if (betAmount > player.getBalance()) {
+		                System.out.println("Balance exceeded, please enter an amount within your limit.");
+		            }
+		            else {
+		                String result = puntoBanco.puntoBancoGame();
+		                System.out.println(result);
+
+		                long oldBalance = player.getBalance();		                
+		                if(result.equals("d")) {
+		                    player.setBalance(oldBalance + betAmount);
+		                    player.setNumberOfWins(player.getNumberOfWins()+1);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER WON " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		                else {
+		                    player.setBalance(oldBalance - betAmount);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		            }
 		        }
 		        else {
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Tie");
-		    		}
-		    	    
+		            long betAmount = setBet();
+		            if (betAmount > player.getBalance()) {
+		                System.out.println("Balance exceeded, please enter an amount within your limit.");
+		            }
+		            else {
+		                String result = puntoBanco.puntoBancoGame();
+		                System.out.println(result);
+
+		                long oldBalance = player.getBalance();
+		                if(result.equals("t")) {
+		                    player.setBalance(oldBalance + (betAmount*5));
+		                    player.setNumberOfWins(player.getNumberOfWins()+1);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER WON " + (betAmount*5) + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		                else {
+		                    player.setBalance(oldBalance - betAmount);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		            }
 		        }
-	            found = true;	            
-	            break;
-	            
-	        }
-	        
-	        
+		        found = true;            
+		        break;
+		    }
+		}
+		if (!found) {
+		    System.out.println("********************************************************************");
+		    System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
+		    System.out.println("********************************************************************");
+		    Player newPlayer = new Player(name, 100, 0);
+		    players.add(newPlayer);
+		    char option2;
+		    option2 = appMenu.gameMenu();
+
+		    if(option2 == 'p') {
+		        long betAmount = setBet();
+		        if (betAmount > newPlayer.getBalance()) {
+		            System.out.println("Balance exceeded, please enter an amount within your limit.");
+		        }
+		        else {
+		            String result = puntoBanco.puntoBancoGame();
+		            System.out.println(result);
+
+		            long oldBalance = newPlayer.getBalance();		            
+		            if(result.equals("p")) {
+		                newPlayer.setBalance(oldBalance + betAmount);
+		                newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                System.out.println("$\t PLAYER WON " + betAmount + "\t$");
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		            }
+		            else {
+		                newPlayer.setBalance(oldBalance - betAmount);
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		            }
+		        }
+		    }
+		    else if(option2 == 'd'){
+		        long betAmount = setBet();
+		        if (betAmount > newPlayer.getBalance()) {
+		            System.out.println("Balance exceeded, please enter an amount within your limit.");
+		        }
+		        else {
+		            String result = puntoBanco.puntoBancoGame();
+		            System.out.println(result);
+
+		            long oldBalance = newPlayer.getBalance();		          
+		            if(result.equals("d")) {
+		                newPlayer.setBalance(oldBalance + betAmount);
+		                newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                System.out.println("$\t PLAYER WON " + betAmount + "$\t$");
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		            }
+		            else {
+		                newPlayer.setBalance(oldBalance - betAmount);
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+		                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		            }
+		        }}
+
+		        else {
+		            long betAmount = setBet();
+		            if (betAmount > newPlayer.getBalance()) {
+		                System.out.println("Balance exceeded, please enter an amount within your limit.");
+		            }
+		            else {
+		                String result = puntoBanco.puntoBancoGame();
+		                System.out.println(result);
+
+		                long oldBalance = newPlayer.getBalance();		                
+		                if(result.equals("t")) {
+		                    newPlayer.setBalance(oldBalance + (betAmount*5));
+		                    newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+		                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER WON " + (betAmount*5) + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		                else {
+		                    newPlayer.setBalance(oldBalance - betAmount);
+		                    newPlayer.setBalance(oldBalance - betAmount);
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			                System.out.println("$\t PLAYER LOST " + betAmount + "$\t$");
+			                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		                }
+		            }
+		        }
+		    }
+	    
 	    }
-	    if (!found) {
-	    	System.out.println("********************************************************************");
-        	System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
-        	System.out.println("********************************************************************");
-        	Player newPlayer = new Player(name, 100, 0);
-    		players.add(newPlayer);
-    		char option2;
-	        option2 = appMenu.gameMenu();
-	        
-	        if(option2 == 'p') {
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Player");
-	    		}
-	    	    
-	    	    
-	        }
-	        else if(option2 == 'd'){
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Dealer");
-	    		}
-	        }
-	        else {
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Tie");
-	    		}
-	    	    
-	        }
-    		
-	    }
-	        
 	    
-	    
-	    }
-	    
-	    
-		
-	
-	private int setBet() {
+	private long setBet() {
 			
 			input = new Scanner(System.in);
 			System.out.println("How much would you like to bet this round?");
-			int betAmount = input.nextInt();
+			long betAmount = input.nextLong();
 			return betAmount;
-			
-
-//		player.setBalance(player.getBalance() - betAmount);
-//		System.out.println(player.getBalance());
-//		player.setBalance(player.getBalance() + betAmount);
-//		System.out.println(player.getBalance());
-//	}
     }
-	
-	private int getBet() {
-		int betAmount = setBet();
-		return betAmount;
-	}
 	
 	
 	private String enterName() {
@@ -295,20 +351,7 @@ public class GameManager {
 	private void returnToMenu() {
 		
 	}
-		
-		
-//	private void playerWin() {
-//		System.out.println(betAmount);
-//
-//	}
-//	
-//	private void dealerWin() {
-//		
-//	}
-//	
-//	private void gameTie() {
-//		
-//	}
+
 	
 	/* In this class toy'll need these methods:
 	 * A constructor
