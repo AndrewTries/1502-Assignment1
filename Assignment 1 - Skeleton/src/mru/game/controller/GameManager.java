@@ -10,12 +10,16 @@ import mru.game.model.Player;
 import mru.game.view.AppMenu;
 
 public class GameManager {
-
+	
 	private Scanner input;
+	
 
+	
 	private final String FILE_PATH = "res//CasinoInfo.txt";
 	ArrayList<Player> players;
 	AppMenu appMenu;
+	ArrayList<Bet> bets;
+	Bet bet;
 
 	public GameManager() throws Exception {
 		players = new ArrayList<>();
@@ -23,16 +27,16 @@ public class GameManager {
 		loadData();
 		launchApplication();
 	}
-
+	
 	private void launchApplication() throws IOException {
-
+		
 		boolean flag = true;
 		char option;
-
+		
 		while (flag) {
 			option = appMenu.showMainMenu();
-
-			switch (option) {
+			
+			switch(option) {
 			case 'P':
 			case 'p':
 				gameInterface();
@@ -45,19 +49,19 @@ public class GameManager {
 			case 'e':
 				save();
 				flag = false;
-			}
+			}	
 		}
 	}
-
+	
 	private void searchApplication() throws IOException {
-
+		
 		boolean flag = true;
 		char option1;
-
+		
 		while (flag) {
 			option1 = appMenu.searchMenu();
-
-			switch (option1) {
+			
+			switch(option1) {
 			case 'T':
 			case 't':
 				topPlayer();
@@ -65,150 +69,202 @@ public class GameManager {
 			case 'N':
 			case 'n':
 				playerSearch();
-				break;
+				break;			
 			case 'B':
 			case 'b':
 				returnToMenu();
 				flag = false;
-			}
+			}			
 		}
 	}
-
-	private void outcomeApplication() {
-
-		boolean flag = true;
-		char option2;
-
-		while (flag) {
-			option2 = appMenu.gameMenu();
-
-			switch (option2) {
-			case 'P':
-			case 'p':
-				playerWin();
-				break;
-			case 'D':
-			case 'd':
-				dealerWin();
-				break;
-			case 'T':
-			case 't':
-				gameTie();
-				flag = false;
-			}
-		}
-	}
-
+	
+//	private void outcomeApplication() {
+//		
+//		boolean flag = true;
+//		char option2;
+//		
+//		while (flag) {
+//			option2 = appMenu.gameMenu();
+//			
+//			switch(option2) {
+//			case 'P':
+//			case 'p':
+//				playerWin();
+//				break;
+//			case 'D':
+//			case 'd':
+//				dealerWin();
+//				break;
+//			case 'T':
+//			case 't':
+//				gameTie();
+//				flag = false;
+//			}
+//		}
+//	}
+	
+	
 	private void save() throws IOException {
-		File file = new File(FILE_PATH);
+		File file = new File (FILE_PATH);
 		PrintWriter printWrite = new PrintWriter(file);
-		for (Player p : players) {
+		for (Player p: players) {
 			printWrite.println(p.format());
 		}
 		printWrite.close();
 		appMenu.exitProgram();
 	}
 
-	public void topPlayer() {
-		players.sort((p1, p2) -> p2.getNumberOfWins() - p1.getNumberOfWins());
+	private void topPlayer() {
+	    players.sort((p1, p2) -> p2.getNumberOfWins() - p1.getNumberOfWins());
 
-		System.out.println("		 - TOP PLAYERS -			");
-		System.out.println("+===============+===============+===============+");
-		System.out.println("|RANK           |NAME           |# WINS         |");
-		System.out.println("+===============+===============+===============+");
+	    System.out.println("		 - TOP PLAYERS -			");
+	    System.out.println("+===============+===============+===============+");
+	    System.out.println("|RANK           |NAME           |# WINS         |");
+	    System.out.println("+===============+===============+===============+");
 
-		for (int i = 0; i < players.size() && i < 5; i++) {
-			Player player = players.get(i);
-			System.out.println("|" + (i + 1) + "              |" + player.getName() + "\t\t|" + player.getNumberOfWins()
-					+ "\t\t|");
-			System.out.println("+---------------+---------------+---------------+");
-		}
+	    for (int i = 0; i < players.size() && i < 5; i++) {
+	        Player player = players.get(i);
+	        System.out.println("|" + (i + 1) + "              |" + player.getName() + "\t\t|" + player.getNumberOfWins() + "\t\t|");
+	        System.out.println("+---------------+---------------+---------------+");
+	    }
 	}
-
+	
 	public void playerSearch() {
-		String name = enterName();
-		boolean found = false;
-		for (Player player : players) {
-			if (player.getName().equals(name)) {
-				System.out.println("		       - PLAYER INFO -			");
-				System.out.println("+===============+===============+===============+");
-				System.out.println("|NAME           |# WINS         |BALANCE        |");
-				System.out.println("+===============+===============+===============+");
-				System.out.println(
-						"|" + player.getName() + "|" + player.getNumberOfWins() + "|" + player.getBalance() + "|");
-				System.out.println("+---------------+---------------+---------------+");
-
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
-			System.out.println("Player not found.");
-		}
+	    String name = enterName();
+	    boolean found = false;
+	    for (Player player : players) {
+	        if (player.getName().equals(name)) {
+	        	System.out.println("		       - PLAYER INFO -			");
+	        	System.out.println("+===============+===============+===============+");
+	    		System.out.println("|NAME           |# WINS         |BALANCE        |");
+	    		System.out.println("+===============+===============+===============+");
+	            System.out.println("|" + player.getName() + "|" + player.getNumberOfWins() + "|" + player.getBalance() + "|");
+	            System.out.println("+---------------+---------------+---------------+");
+	            	            
+	            found = true;
+	            break;
+	        }
+	    }
+	    if (!found) {
+	        System.out.println("Player not found.");
+	    }
 	}
-
+	
 	private void gameInterface() {
 		String name = enterName();
 		boolean found = false;
-		for (Player player : players) {
-			
-			if (player.getName().equals(name)) {
-				appMenu.showPlayer(player);
-				System.out.println("********************************************************************");
-				System.out.println("***   Welcome back " + player.getName() + "   ---   Your balance is: "
-						+ player.getBalance() + "$        ***");
-				System.out.println("********************************************************************");
-				found = true;
-				break;
-			}
+	    for (Player player : players) {
+	        if (player.getName().equals(name)) {
+	        	System.out.println("********************************************************************");
+	        	System.out.println("***   Welcome back " + player.getName() + "   ---   Your balance is: " + player.getBalance() + "$        ***");
+	        	System.out.println("********************************************************************");
+	        	char option2;
+		        option2 = appMenu.gameMenu();
+		        
+		        if(option2 == 'p') {
+		        	int betAmount = setBet();
+		    	    if (betAmount > player.getBalance()) {
+		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+		    			System.out.println("Player");
+		    			System.out.println("hi!");
+		    		}
+		    	    
+		    	    
+		        }
+		        else if(option2 == 'd'){
+		        	int betAmount = setBet();
+		    	    if (betAmount > player.getBalance()) {
+		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+		    			System.out.println("Dealer");
+		    		}
+		        }
+		        else {
+		        	int betAmount = setBet();
+		    	    if (betAmount > player.getBalance()) {
+		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+		    			System.out.println("Tie");
+		    		}
+		    	    
+		        }
+	            found = true;	            
+	            break;
+	            
+	        }
+	        
+	        
+	    }
+	    if (!found) {
+	    	System.out.println("********************************************************************");
+        	System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
+        	System.out.println("********************************************************************");
+        	Player newPlayer = new Player(name, 100, 0);
+    		players.add(newPlayer);
+    		char option2;
+	        option2 = appMenu.gameMenu();
+	        
+	        if(option2 == 'p') {
+	        	int betAmount = setBet();
+	    	    if (betAmount > 100) {
+	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+	    			System.out.println("Player");
+	    		}
+	    	    
+	    	    
+	        }
+	        else if(option2 == 'd'){
+	        	int betAmount = setBet();
+	    	    if (betAmount > 100) {
+	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+	    			System.out.println("Dealer");
+	    		}
+	        }
+	        else {
+	        	int betAmount = setBet();
+	    	    if (betAmount > 100) {
+	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
+	    			System.out.println("Tie");
+	    		}
+	    	    
+	        }
+    		
+	    }
+	        
+	    
+	    
+	    }
+	    
+	    
 		
-			if (!found) {
-			System.out.println("********************************************************************");
-			System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
-			System.out.println("********************************************************************");
-			Player newPlayer = new Player(name, 100, 0);
-			players.add(newPlayer);
-
-//    		for (Player player : players) {
-//    			input = new Scanner(System.in);
-//    			System.out.println("How much would you like to bet this round?");
-//    			betAmount = 0+ input.nextInt();
-//    			if (betAmount > player.getBalance()) {
-//    				System.out.println("Balance exceeded, please enter an amount within your limit.");
-		}
-		// break;
-//	    }
-		outcomeApplication();
-		setBet();
-		}
-	}
-
-//	    return betAmount;
-	public int setBet() {
-		int betAmount=0;
-		for (Player player : players) {
+	
+	private int setBet() {
+			
 			input = new Scanner(System.in);
 			System.out.println("How much would you like to bet this round?");
+			int betAmount = input.nextInt();
+			return betAmount;
 			
-			betAmount = input.nextInt();
-			if (betAmount > player.getBalance()) {
-				System.out.println("Balance exceeded, please enter an amount within your limit.");
-			}
+
 //		player.setBalance(player.getBalance() - betAmount);
 //		System.out.println(player.getBalance());
 //		player.setBalance(player.getBalance() + betAmount);
 //		System.out.println(player.getBalance());
-		}
+//	}
+    }
+	
+	private int getBet() {
+		int betAmount = setBet();
 		return betAmount;
 	}
 	
+	
 	private String enterName() {
 		input = new Scanner(System.in);
-		System.out.println("What is your name: ");
-		String name = input.nextLine().trim().toLowerCase();
-		return name;
+	    System.out.println("What is your name: ");
+	    String name = input.nextLine().trim().toLowerCase();
+	    return name;
 	}
-
+	
+	
 	private void loadData() throws Exception {
 		File db = new File(FILE_PATH);
 		String currentLine;
@@ -221,12 +277,12 @@ public class GameManager {
 
 				currentLine = fileReader.nextLine();
 				splittedLine = currentLine.split(",");
-
+				
 				String name = splittedLine[0].toLowerCase();
 				long balance = Long.parseLong(splittedLine[1]);
 				int numberOfWins = Integer.parseInt(splittedLine[2]);
-
-				Player p = new Player(name, balance, numberOfWins);
+				
+				Player p = new Player(name,balance,numberOfWins);
 				players.add(p);
 
 			}
@@ -235,33 +291,34 @@ public class GameManager {
 		}
 
 	}
-
+	
 	private void returnToMenu() {
-
+		
 	}
-
-	private void playerWin() {
-//		System.out.println("Player won" + betAmount);
-//		player.setBalance(player.getBalance()+betAmount);
-//		player.setNumberOfWins(player.getNumberOfWins()+1);
-
-	}
-
-	private void dealerWin() {
-			
-	}
-
-	private void gameTie() {
-
-	}
-
-	/*
-	 * In this class toy'll need these methods: A constructor A method to load the
-	 * txt file into an arraylist (if it exists, so you check if the txt file exists
-	 * first) A save method to store the arraylist into the the txt file A method to
-	 * search for a player based their name A method to find the top players
-	 * Depending on your designing technique you may need and you can add more
-	 * methods here
+		
+		
+//	private void playerWin() {
+//		System.out.println(betAmount);
+//
+//	}
+//	
+//	private void dealerWin() {
+//		
+//	}
+//	
+//	private void gameTie() {
+//		
+//	}
+	
+	/* In this class toy'll need these methods:
+	 * A constructor
+	 * A method to load the txt file into an arraylist (if it exists, so you check if the txt file exists first)
+	 * A save method to store the arraylist into the the txt file 
+	 * A method to search for a player based their name
+	 * A method to find the top players
+	 * Depending on your designing technique you may need and you can add more methods here 
 	 */
+
+	
 
 }
