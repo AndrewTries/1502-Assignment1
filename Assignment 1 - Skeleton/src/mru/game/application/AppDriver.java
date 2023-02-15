@@ -4,7 +4,7 @@ import mru.game.controller.GameManager;
 
 /**
  * 
- * @author Egor Galiulin & Andrew Kravicz
+ * @author Egor Galiulin & Andrew Krawiec
  *
  */
 public class AppDriver {
