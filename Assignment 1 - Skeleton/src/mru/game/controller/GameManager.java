@@ -10,7 +10,7 @@ import mru.game.model.Player;
 import mru.game.view.AppMenu;
 /**
  * 
- * @author Andrew Kravicz and Egor Galiulin
+ * @author Andrew Krawiec and Egor Galiulin
  *
  */
 public class GameManager {
