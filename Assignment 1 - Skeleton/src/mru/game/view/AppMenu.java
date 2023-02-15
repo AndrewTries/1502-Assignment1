@@ -115,11 +115,17 @@ public class AppMenu {
 		System.out.printf("$\t   PLAYER WON %-13d$\n", betAmount);
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 	}
-	
+	/**
+	 * Asks the user if they want to play more, or would like to end the session
+	 * @return continuePlaying
+	 */
 	public boolean playAgain() {
 	    Scanner input = new Scanner(System.in);
 	    String play = "";
 	    boolean continuePlaying = false;
+		/**
+	     * do-while loop that prompts user for their choice and activates the appropriate methods 
+	     */
 	    do {
 	        System.out.print("\nDo you want to play again (Y/N)?");
 	        play = input.nextLine().toUpperCase();
@@ -130,6 +136,10 @@ public class AppMenu {
 	        } else {
 	            System.out.println("\nInvalid option. Please enter either 'y' or 'n':");
 	        }
+		    /**
+	         * while loop that returns the continuePlaying variable when the selection is valid
+	         * @return continuePlaying
+	         */
 	    } while (!play.equals("Y") && !play.equals("N"));
 	    return continuePlaying;
 	}
