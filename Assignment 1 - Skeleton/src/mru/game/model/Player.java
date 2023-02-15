@@ -1,7 +1,7 @@
 package mru.game.model;
 
 /**
- * @author Adrew Krawiec
+ * @author Adrew Krawiec and Egor Galiulin
  * This class represent each player record in the Database
  * It is basically a model class for each record in the txt file
  */
