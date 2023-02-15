@@ -96,19 +96,28 @@ public class AppMenu {
 		long betAmount = input.nextLong();
 		return betAmount;
 	}
-	
+	/**
+	 * method outputs the long variable of bet amount in a nice table if the player wins
+	 * @param betAmount
+	 */
 	public void playerWin(long betAmount){		
 		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 		System.out.printf("$\t   PLAYER WON %-13d$\n", betAmount);
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 	}
-	
+	/**
+	 * method outputs the long variable of bet amount in a nice table if the player looses
+	 * @param betAmount
+	 */
 	public void playerLose(long betAmount) {		
 		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 		System.out.printf("$\t   PLAYER LOST %-13d$\n", betAmount);
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 	}
-	
+	/**
+	 * method outputs the long variable of bet amount in a nice table if the game is a tie
+	 * @param betAmount
+	 */
 	public void playerTie(long betAmount) {		
 		betAmount = betAmount*5;
 		System.out.println("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
