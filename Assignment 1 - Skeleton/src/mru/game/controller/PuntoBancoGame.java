@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class PuntoBancoGame {
 	
 private Scanner input;
+/**
+ * @author Andrew Krawiec
+ */
 
 /**
  * initializes CardDeck class
