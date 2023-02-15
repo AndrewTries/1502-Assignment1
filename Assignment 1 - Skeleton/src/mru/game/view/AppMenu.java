@@ -56,18 +56,16 @@ public class AppMenu {
 		System.out.println("(T) Top player (Most number of wins)");
 		System.out.println("(N) Looking for a Name");
 		System.out.println("(B) Back to Main menu");
-		System.out.println("\nEnter a choice:");
+		System.out.print("\nEnter a choice:");
 		char option1 = input.next().toLowerCase().charAt(0);
-		/**
-		 * checks the validity of entered character
-		 */
+		
 		while (option1 != 't' && option1 != 'n' && option1 != 'c' && option1 != 'b') {
 			System.out.println("Invalid option. Please enter either 't', 'n', or 'b':");
 			option1 = input.next().toLowerCase().charAt(0);
-		}
-		
+		}		
 		return option1;
 	}
+	
 	/**
 	 * This is the Game menu where the payer selects what they should bet on
 	 * @return option2, which is the selected character for this method
@@ -76,16 +74,15 @@ public class AppMenu {
 	public char gameMenu() {
 		System.out.println("Who do you want to bet on?\n");
 		System.out.println("(P) Player Wins");
-		System.out.println("(B) Banker Wins");
+		System.out.println("(D) Dealer Wins");
 		System.out.println("(T) Tie Game");
-		System.out.println("\nEnter your Choice:");
+		System.out.print("\nEnter your Choice:");
 		char option2 = input.next().toLowerCase().charAt(0);
 		
-		while (option2 != 'p' && option2 != 'b' && option2 != 't') {
-			System.out.println("Invalid option. Please enter either 'p', 'b', or 't':");
+		while (option2 != 'p' && option2 != 'd' && option2 != 't') {
+			System.out.println("Invalid option. Please enter either 'p', 'd', or 't':");
 			option2 = input.next().toLowerCase().charAt(0);
-		}
-		
+		}		
 		return option2;
 	}
 	
@@ -93,9 +90,9 @@ public class AppMenu {
 	 * Method that sets the bet amount to the setBet clas and returns this value
 	 * @return bet amount
 	 */
-	public long setBet() {
+	public long setBet() {		
 		input = new Scanner(System.in);
-		System.out.println("How much would you like to bet this round?");
+		System.out.print("\nHow much would you like to bet this round?");
 		long betAmount = input.nextLong();
 		return betAmount;
 	}
@@ -120,18 +117,18 @@ public class AppMenu {
 	}
 	
 	public boolean playAgain() {
+	    Scanner input = new Scanner(System.in);
 	    String play = "";
 	    boolean continuePlaying = false;
 	    do {
-	        System.out.println("Do you want to play again (Y/N)?");
+	        System.out.print("\nDo you want to play again (Y/N)?");
 	        play = input.nextLine().toUpperCase();
 	        if (play.equals("Y")) {
 	            continuePlaying = true;
 	        } else if (play.equals("N")) {
 	            continuePlaying = false;
-	            showMainMenu();
 	        } else {
-	            System.out.println("Invalid option. Please enter either 'y' or 'n':");
+	            System.out.println("\nInvalid option. Please enter either 'y' or 'n':");
 	        }
 	    } while (!play.equals("Y") && !play.equals("N"));
 	    return continuePlaying;
@@ -154,7 +151,7 @@ public class AppMenu {
 	 */
 	public String enterName() {
 		input = new Scanner(System.in);
-		System.out.println("What is your name: ");
+		System.out.println("\nWhat is your name: ");
 		String name = input.nextLine().trim().toLowerCase();
 		return name;
 	}
