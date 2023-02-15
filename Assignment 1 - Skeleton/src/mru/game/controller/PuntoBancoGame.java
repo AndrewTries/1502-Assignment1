@@ -28,13 +28,15 @@ public String puntoBancoGame() {
 	final int MODULO = 10;
 	boolean gameOver = false;
 	String result = null;
-/**
- * while the boolean is activated, 0 is removed from the deck and 3rd card is set to nothing to be played later
- */
+	/**
+	 * while the boolean is activated, 0 is removed from the deck and 3rd card is set to nothing to be played later
+	 */
 while(!gameOver) {
+		//Card playerHand = cards.getDeck().remove(0);
 		Card playerCard1 = cards.getDeck().remove(0);
 		Card playerCard2 = cards.getDeck().remove(0);
 		Card playerCard3 = null;
+		//Card dealerHand = cards.getDeck().remove(0);
 		Card dealerCard1 = cards.getDeck().remove(0);
 		Card dealerCard2 = cards.getDeck().remove(0);
 		Card dealerCard3 = null;
@@ -201,7 +203,7 @@ while(!gameOver) {
 		/**
 		 *table of results of the game
 		 */
-	    System.out.println("             - PUNTO BANCO -             ");
+	    System.out.println("\n             - PUNTO BANCO -             ");
 	    System.out.println("+===================+===================+");
 	    System.out.println("||PLAYER            |DEALER            ||");
 	    System.out.println("+===================+===================+");
@@ -217,5 +219,4 @@ while(!gameOver) {
 }
 return "p";
 }
-
 }
