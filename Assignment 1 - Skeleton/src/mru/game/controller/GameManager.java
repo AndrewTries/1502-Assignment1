@@ -8,36 +8,36 @@ import java.util.Scanner;
 
 import mru.game.model.Player;
 import mru.game.view.AppMenu;
+
 /**
  * 
  * @author Andrew Krawiec and Egor Galiulin
  *
  */
 public class GameManager {
-	/**
-	 * initialized scanner to accept user inputs
-	 */
-	private Scanner input;
+	private Scanner input = new Scanner(System.in);
 	
-
 	/**
 	 * setting a path to the txt file that will be used as a data storage
 	 */
 	private final String FILE_PATH = "res//CasinoInfo.txt";
 	ArrayList<Player> players;
 	AppMenu appMenu;
-/**
- * Game Manager is the constructor of this class
- * @throws Exception
- * contains the initializations for the array list and the AppMenu class to be used as a method
- * A
- */
+	PuntoBancoGame puntoBanco;
+	
+	/**
+	 * Game Manager is the constructor of this class
+	 * @throws Exception
+	 * contains the initializations for the array list and the AppMenu class to be used as a method
+	 */
 	public GameManager() throws Exception {
 		players = new ArrayList<>();
 		appMenu = new AppMenu();
+		puntoBanco = new PuntoBancoGame();
 		loadData();
 		launchApplication();
 	}
+	
 	/**
 	 * method that launches the application, by showing the main menu and activating the switch statement for selections
 	 * 
@@ -47,6 +47,7 @@ public class GameManager {
 		
 		boolean flag = true;
 		char option;
+		
 		/**
 		 * while loop that is used for the selection of the menu option, that closes after the correct option was entered
 		 */
@@ -71,6 +72,7 @@ public class GameManager {
 			}	
 		}
 	}
+	
 	/**
 	 * This method is used to display the search option with its own menu
 	 * @throws IOException
@@ -116,15 +118,13 @@ public class GameManager {
 		for (Player p: players) {
 			printWrite.println(p.format());
 		}
-		/**
-		 * closes the program and closes the print writer method
-		 */
 		printWrite.close();
 		appMenu.exitProgram();
 	}
-/**
- * method used to display the menu, name, and number of wins of the top player
- */
+
+	/**
+	 * method used to display the menu, name, and number of wins of the top player
+	 */
 	private void topPlayer() {
 	    players.sort((p1, p2) -> p2.getNumberOfWins() - p1.getNumberOfWins());
 
@@ -132,15 +132,16 @@ public class GameManager {
 	    System.out.println("+===============+===============+===============+");
 	    System.out.println("|RANK           |NAME           |# WINS         |");
 	    System.out.println("+===============+===============+===============+");
-/**
- * for loop that formats the outputed name and number of wins into the proper format
- */
+	    /**
+	     * for loop that formats the outputed name and number of wins into the proper format
+	     */
 	    for (int i = 0; i < players.size() && i < 5; i++) {
 	        Player player = players.get(i);
 	        System.out.println("|" + (i + 1) + "              |" + player.getName() + "\t\t|" + player.getNumberOfWins() + "\t\t|");
 	        System.out.println("+---------------+---------------+---------------+");
 	    }
 	}
+	
 	/**
 	 * method used to search for a specific player by their name
 	 * boolean is initialized as false, to be checked by comparing the entered name against the names stored in the txt file
@@ -148,7 +149,7 @@ public class GameManager {
 	 * if the name was not found, shows the error message
 	 */
 	public void playerSearch() {
-	    String name = enterName();
+	    String name = appMenu.enterName();
 	    boolean found = false;
 	    for (Player player : players) {
 	        if (player.getName().equals(name)) {
@@ -167,134 +168,164 @@ public class GameManager {
 	        System.out.println("Player not found.");
 	    }
 	}
+	
 	/**
 	 * Method that prints the game interface depending on the name check
 	 * 
 	 */
 	private void gameInterface() {
-		String name = enterName();
-		boolean found = false;
+	    String name = appMenu.enterName();
+	    boolean found = false;
 	    for (Player player : players) {
-	    	/**
-	    	 * if the name check succeeds, the method shows the "Welcome Back" message and displayes name and balance of the user
-	    	 */
 	        if (player.getName().equals(name)) {
-	        	System.out.println("********************************************************************");
-	        	System.out.println("***   Welcome back " + player.getName() + "   ---   Your balance is: " + player.getBalance() + "$        ***");
-	        	System.out.println("********************************************************************");
-	        	char option2;
-		        option2 = appMenu.gameMenu();
-		        
-		        if(option2 == 'p') {
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Player");
-		    			System.out.println("hi!");
-		    		}
-		    	    
-		    	    
-		        }
-		        else if(option2 == 'd'){
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Dealer");
-		    		}
-		        }
-		        else {
-		        	int betAmount = setBet();
-		    	    if (betAmount > player.getBalance()) {
-		    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-		    			System.out.println("Tie");
-		    		}
-		    	    
-		        }
-	            found = true;	            
+	            System.out.println("\n********************************************************************");
+	            System.out.println("***   Welcome back " + player.getName() + "   ---   Your balance is: " + player.getBalance() + "$        ***");
+	            System.out.println("********************************************************************\n");
+	            char option2;
+	            do {
+	                option2 = appMenu.gameMenu();
+	                if (option2 == 'p') {
+	                    long betAmount = appMenu.setBet();
+	                    if (betAmount > player.getBalance()) {
+	                        System.out.println("Balance exceeded, please enter an amount within your limit.");
+	                    } else {
+	                        String result = puntoBanco.puntoBancoGame();
+
+	                        long oldBalance = player.getBalance();
+	                        if (result.equals("p")) {
+	                            player.setBalance(oldBalance + betAmount);
+	                            player.setNumberOfWins(player.getNumberOfWins() + 1);
+	                            appMenu.playerWin(betAmount);
+	                        } else {
+	                            player.setBalance(oldBalance - betAmount);
+	                            appMenu.playerLose(betAmount);
+	                        }
+	                    }
+	                } else if (option2 == 'd') {
+	                    long betAmount = appMenu.setBet();
+	                    if (betAmount > player.getBalance()) {
+	                        System.out.println("Balance exceeded, please enter an amount within your limit.");
+	                    } else {
+	                        String result = puntoBanco.puntoBancoGame();
+
+	                        long oldBalance = player.getBalance();
+	                        if (result.equals("d")) {
+	                            player.setBalance(oldBalance + betAmount);
+	                            player.setNumberOfWins(player.getNumberOfWins() + 1);
+	                            appMenu.playerWin(betAmount);
+	                        } else {
+	                            player.setBalance(oldBalance - betAmount);
+	                            appMenu.playerLose(betAmount);
+	                        }
+	                    }
+	                } else {
+	                    long betAmount = appMenu.setBet();
+	                    if (betAmount > player.getBalance()) {
+	                        System.out.println("Balance exceeded, please enter an amount within your limit.");
+	                    } else {
+	                        String result = puntoBanco.puntoBancoGame();
+
+	                        long oldBalance = player.getBalance();
+	                        if (result.equals("t")) {
+	                            player.setBalance(oldBalance + (betAmount * 5));
+	                            player.setNumberOfWins(player.getNumberOfWins() + 1);
+	                            appMenu.playerTie(betAmount);
+	                        } else {
+	                            player.setBalance(oldBalance - betAmount);
+	                            appMenu.playerLose(betAmount);
+	                        }
+	                    }
+	                }
+	                if (!appMenu.playAgain()) {
+	                    break;
+	                }
+	            } while (true);
+	            found = true;
 	            break;
-	            
 	        }
-	        
-	        
 	    }
 	    /**
 	     * if the name does not exist in the txt file, the method prints the regular "Welcome" message and assigns 100$ to a user
 	     *
 	     */
-	    if (!found) {
-	    	System.out.println("********************************************************************");
-        	System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
-        	System.out.println("********************************************************************");
-        	Player newPlayer = new Player(name, 100, 0);
-    		players.add(newPlayer);
-    		char option2;
-	        option2 = appMenu.gameMenu();
-	        
-	        /**
+		if (!found) {
+		    System.out.println("********************************************************************");
+		    System.out.println("***   Welcome " + name + "   ---   Your balance is: 100 $        ***");
+		    System.out.println("********************************************************************");
+		    Player newPlayer = new Player(name, 100, 0);
+		    players.add(newPlayer);
+		    char option2;
+		    do {
+		    option2 = appMenu.gameMenu();
+		    /**
 	         * if statements are used to check the result of the game, check if the bet is exceding the amount of money on the balance,
 	         * and print the side that won
 	         */
-	        if(option2 == 'p') {
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Player");
-	    		}
-	    	    
-	    	    
+		    if(option2 == 'p') {
+		        long betAmount = appMenu.setBet();
+	            if (betAmount > newPlayer.getBalance()) {
+	                System.out.println("Balance exceeded, please enter an amount within your limit.");
+	            }
+	            else {
+	                String result = puntoBanco.puntoBancoGame();
+
+	                long oldBalance = newPlayer.getBalance();		               
+	                if(result.equals("p")) {
+	                    newPlayer.setBalance(oldBalance + betAmount);
+	                    newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+	                    appMenu.playerWin(betAmount);
+	                }
+	                else {
+	                    newPlayer.setBalance(oldBalance - betAmount);
+	                    appMenu.playerLose(betAmount);
+	                }
+	            }
 	        }
 	        else if(option2 == 'd'){
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Dealer");
-	    		}
+	            long betAmount = appMenu.setBet();
+	            if (betAmount > newPlayer.getBalance()) {
+	                System.out.println("Balance exceeded, please enter an amount within your limit.");
+	            }
+	            else {
+	                String result = puntoBanco.puntoBancoGame();
+
+	                long oldBalance = newPlayer.getBalance();		                
+	                if(result.equals("d")) {
+	                    newPlayer.setBalance(oldBalance + betAmount);
+	                    newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+	                    appMenu.playerWin(betAmount);
+	                }
+	                else {
+	                    newPlayer.setBalance(oldBalance - betAmount);
+	                    appMenu.playerLose(betAmount);
+	                }
+	            }
 	        }
 	        else {
-	        	int betAmount = setBet();
-	    	    if (betAmount > 100) {
-	    			System.out.println("Balance exceeded, please enter an amount within your limit.");
-	    			System.out.println("Tie");
-	    		}
-	    	    
-	        }
-    		
-	    }
-	        
-	    
-	    
-	    }
-	    /**
-	     * This method prompts user to enter the monetary bet amount 
-	     * @return betAmount
-	     */
-	private int setBet() {
-			
-			input = new Scanner(System.in);
-			System.out.println("How much would you like to bet this round?");
-			int betAmount = input.nextInt();
-			return betAmount;
-			
-    }
-	/**
-	 * Method that sets the bet amount to the setBet clas and returns this value
-	 * @return bet amount
-	 */
-	private int getBet() {
-		int betAmount = setBet();
-		return betAmount;
+	            long betAmount = appMenu.setBet();
+	            if (betAmount > newPlayer.getBalance()) {
+	                System.out.println("Balance exceeded, please enter an amount within your limit.");
+	            }
+	            else {
+	                String result = puntoBanco.puntoBancoGame();		                
+
+	                long oldBalance = newPlayer.getBalance();
+	                if(result.equals("t")) {
+	                    newPlayer.setBalance(oldBalance + (betAmount*5));
+	                    newPlayer.setNumberOfWins(newPlayer.getNumberOfWins()+1);
+	                    appMenu.playerTie(betAmount);
+	                }
+	                else {
+	                    newPlayer.setBalance(oldBalance - betAmount);
+	                    appMenu.playerLose(betAmount);
+	                }
+	            }
+	        }            
+	        break;
+	    }while (appMenu.playAgain());
+		}
 	}
-	
-	/**
-	 * Prompts user to enter their name and formats it to the lower case only
-	 * @return name as a string
-	 */
-	private String enterName() {
-		input = new Scanner(System.in);
-	    System.out.println("What is your name: ");
-	    String name = input.nextLine().trim().toLowerCase();
-	    return name;
-	}
+
 	
 	/**
 	 * loads the data from the txt file to be accessed by methods
@@ -321,27 +352,15 @@ public class GameManager {
 				players.add(p);
 
 			}
-
 			fileReader.close();
 		}
-
 	}
+	
 	/**
 	 * method that returns the user to the main menu if activated
 	 */
 	private void returnToMenu() {
 		
 	}
-	
-	/* In this class toy'll need these methods:
-	 * A constructor
-	 * A method to load the txt file into an arraylist (if it exists, so you check if the txt file exists first)
-	 * A save method to store the arraylist into the the txt file 
-	 * A method to search for a player based their name
-	 * A method to find the top players
-	 * Depending on your designing technique you may need and you can add more methods here 
-	 */
-
-	
-
 }
+
